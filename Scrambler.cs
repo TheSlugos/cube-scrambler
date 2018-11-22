@@ -53,5 +53,37 @@ namespace cube_scrambler
 
       return array[element];
     }
+
+    public string ReverseScramble(string moves)
+    {
+      // split the string
+      string[] commands = moves.Split(' ');
+      string newMoves = string.Empty;
+
+      for (int i = commands.Length - 1; i >= 0; i--)
+      {
+        string reverseCommand = string.Empty;
+
+        if (commands[i].Contains(@"'"))
+        {
+          // ccw - make cw
+          reverseCommand = commands[i].Substring(0, 1);
+        }
+        else if (commands[i].Contains("2"))
+        {
+          // double rotation is same as double prime rotation
+          reverseCommand = commands[i];
+        }
+        else
+        {
+          // must be cw rotation, make ccw
+          reverseCommand = commands[i] + "\'";
+        }
+
+        newMoves += reverseCommand + " ";
+      }
+
+      return newMoves.Trim();
+    }
   }
 }
