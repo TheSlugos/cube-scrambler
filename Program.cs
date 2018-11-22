@@ -27,14 +27,20 @@ namespace cube_scrambler
 
       Scrambler myScrambler = new Scrambler();
       string myMoves = myScrambler.Scramble();
-      myMoves = @"D' B' R' D B U' B2 L' U R2 B' U R2 F' R D B U F' L L' F U' B' D' R' F R2 U' B R2 U' L B2 U B' D' R B D";
+      string revMoves = myScrambler.ReverseScramble(myMoves);
+
       Console.WriteLine(myMoves);
+      Console.WriteLine(revMoves);
 
       Console.WriteLine();
 
       // make a cube and draw it
       Cube theCube = new Cube();
       theCube.PerformMoves(myMoves);
+      theCube.DrawCube();
+
+      Console.WriteLine();
+      theCube.PerformMoves(revMoves);
       theCube.DrawCube();
     }
   }
