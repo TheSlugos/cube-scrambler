@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace cube_scrambler
 {
@@ -32,7 +33,12 @@ namespace cube_scrambler
         sb.Append(" ");
       }
 
-      return sb.ToString().Trim();
+      string scramble_moves = sb.ToString().Trim();
+      string reverse_moves = ReverseScramble(scramble_moves);
+
+      string json = JsonConvert.SerializeObject(new { scramble = scramble_moves, reverse = reverse_moves });
+
+      return json;
     }
 
     private int getNonRepeatRandomElement(string[][] array, int lastResult = -1)
@@ -54,7 +60,7 @@ namespace cube_scrambler
       return array[element];
     }
 
-    public string ReverseScramble(string moves)
+    private string ReverseScramble(string moves)
     {
       // split the string
       string[] commands = moves.Split(' ');

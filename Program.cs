@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace cube_scrambler
 {
@@ -26,22 +28,51 @@ namespace cube_scrambler
       Console.WriteLine("Type of moves[1]: {0}", moves[1].GetType()); */
 
       Scrambler myScrambler = new Scrambler();
-      string myMoves = myScrambler.Scramble();
-      string revMoves = myScrambler.ReverseScramble(myMoves);
+      var MoveSet = new { scramble = string.Empty, reverse = string.Empty };
 
-      Console.WriteLine(myMoves);
-      Console.WriteLine(revMoves);
+      string jsonstring = myScrambler.Scramble();
 
-      Console.WriteLine();
+      var moveset = JsonConvert.DeserializeAnonymousType(jsonstring, MoveSet);
+
+      Console.WriteLine($"moves: {moveset.scramble}\nreverse: {moveset.reverse}");
 
       // make a cube and draw it
       Cube theCube = new Cube();
-      theCube.PerformMoves(myMoves);
+      theCube.PerformMoves(moveset.scramble);
       theCube.DrawCube();
 
       Console.WriteLine();
-      theCube.PerformMoves(revMoves);
+      theCube.PerformMoves(moveset.reverse);
       theCube.DrawCube();
+
+      Console.WriteLine(theCube.ToJson());
+
+      // Testing json -> can create a Draw class/method that takes this json and displays
+      // the cube as per platform
+      /*
+        ICubeDrawer
+          - public void DrawCube(string cubeJson)
+            public
+
+        Cube.Draw(ICubeDrawer theDrawer);
+
+        Class ConsoleCubeDrawer : ICubeDrawer
+          public void DrawCube(string cubeJson)
+          {
+            Console.SetCursorPosition(x,y) blah blah
+          }
+       */
+      var TestClass = new
+      {
+        left = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+        front = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+        right = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+        back = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+        up = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+        down = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } }
+      };
+
+      var testClass = JsonConvert.DeserializeAnonymousType(theCube.ToJson(), TestClass);
     }
   }
 }

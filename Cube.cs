@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace cube_scrambler
 {
@@ -542,6 +543,25 @@ namespace cube_scrambler
             break;
         }
       }
+    }
+
+    public string ToJson()
+    {
+      string json;
+
+      //json = JsonConvert.SerializeObject(_Faces);
+
+      json = JsonConvert.SerializeObject(new
+      {
+        left = _Faces[CubeHelper.LEFT].Tiles,
+        front = _Faces[CubeHelper.FRONT].Tiles,
+        right = _Faces[CubeHelper.RIGHT].Tiles,
+        back = _Faces[CubeHelper.BACK].Tiles,
+        up = _Faces[CubeHelper.UP].Tiles,
+        down = _Faces[CubeHelper.DOWN].Tiles
+      });
+
+      return json;
     }
   }
 }
