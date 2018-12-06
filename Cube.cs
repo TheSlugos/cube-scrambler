@@ -1,3 +1,5 @@
+// Added ICubeDrawer
+
 using System;
 using System.Text;
 using Newtonsoft.Json;
@@ -34,6 +36,10 @@ namespace cube_scrambler
       Console.WriteLine(_Faces[CubeHelper.BACK].DrawFace());
       Console.WriteLine(CubeHelper.FACE_NAMES[CubeHelper.DOWN]);
       Console.WriteLine(_Faces[CubeHelper.DOWN].DrawFace());
+    }
+
+    public void Draw(ICubeDrawer cubeDrawer) {
+      cubeDrawer.Draw(this.ToJson());
     }
 
     private void RotateU()

@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace cube_scrambler
@@ -29,23 +30,29 @@ namespace cube_scrambler
 
       Scrambler myScrambler = new Scrambler();
       var MoveSet = new { scramble = string.Empty, reverse = string.Empty };
-
       string jsonstring = myScrambler.Scramble();
-
       var moveset = JsonConvert.DeserializeAnonymousType(jsonstring, MoveSet);
+      
+      Console.Clear();
 
       Console.WriteLine($"moves: {moveset.scramble}\nreverse: {moveset.reverse}");
+      Console.WriteLine();
 
       // make a cube and draw it
       Cube theCube = new Cube();
       theCube.PerformMoves(moveset.scramble);
-      theCube.DrawCube();
+      // theCube.DrawCube();
 
-      Console.WriteLine();
-      theCube.PerformMoves(moveset.reverse);
-      theCube.DrawCube();
+      // Console.WriteLine();
+      // theCube.PerformMoves(moveset.reverse);
+      // theCube.DrawCube();
 
-      Console.WriteLine(theCube.ToJson());
+      // New ICubeDrawer
+      Console.WriteLine("Testing cubeDrawer:");
+      ICubeDrawer cubeDrawer = new ConsoleCubeDrawer();
+      theCube.Draw(cubeDrawer);
+      cubeDrawer = new ImageCubeDrawer();
+      theCube.Draw(cubeDrawer);
 
       // Testing json -> can create a Draw class/method that takes this json and displays
       // the cube as per platform
@@ -62,17 +69,28 @@ namespace cube_scrambler
             Console.SetCursorPosition(x,y) blah blah
           }
        */
-      var TestClass = new
-      {
-        left = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
-        front = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
-        right = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
-        back = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
-        up = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
-        down = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } }
-      };
+      // var TestClass = new
+      // {
+      //   left = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+      //   front = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+      //   right = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+      //   back = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+      //   up = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } },
+      //   down = new[] { new[] { "", "", "" }, new[] { "", "", "" }, new[] { "", "", "" } }
+      // };
 
-      var testClass = JsonConvert.DeserializeAnonymousType(theCube.ToJson(), TestClass);
+      // var testClass = JsonConvert.DeserializeAnonymousType(theCube.ToJson(), TestClass);
+
+      Console.WriteLine();
+      // JObject o = JObject.Parse(theCube.ToJson());
+      // JArray a = (JArray)o["left"];
+      // Console.WriteLine(a[0][0]);
+      // Console.WriteLine(a[0][1]);
+      // Console.WriteLine(a[0][2]);
+      // JArray row1 = (JArray)a[0];
+      // foreach(JValue jv in row1) {
+      //   Console.WriteLine(jv.Value.ToString());
+      // }
     }
   }
 }
