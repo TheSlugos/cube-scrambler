@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json.Linq;
+using cube_scrambler;
 
 public class ConsoleCubeDrawer : ICubeDrawer {
     JArray[] _cube;
@@ -71,34 +72,34 @@ public class ConsoleCubeDrawer : ICubeDrawer {
             ConsoleColor currentForegroundColor = Console.ForegroundColor;
             ConsoleColor tileColor;
             switch (colour) {
-                case "R":
+                case CubeHelper.RED:
                     tileColor = ConsoleColor.Red;
                     break;
 
-                case "W":
+                case CubeHelper.WHITE:
                     tileColor = ConsoleColor.White;
                     break;
 
-                case "G":
+                case CubeHelper.GREEN:
                     tileColor = ConsoleColor.Green;
                     break;
 
-                case "B":
+                case CubeHelper.BLUE:
                     tileColor = ConsoleColor.Blue;
                     break;
 
-                case "Y":
+                case CubeHelper.YELLOW:
                     tileColor = ConsoleColor.Yellow;
                     break;
 
-                case "O":
+                case CubeHelper.ORANGE:
                     tileColor = ConsoleColor.Magenta;
                     break;
 
                 default:
                     tileColor = currentForegroundColor;
                     break;
-            } 
+            }
             Console.ForegroundColor = tileColor;
             Console.Write("#####");
             Console.ForegroundColor = currentForegroundColor;

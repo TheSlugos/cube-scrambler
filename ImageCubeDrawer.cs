@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json.Linq;
 using SkiaSharp;
 using System.IO;
+using cube_scrambler;
 
 public class ImageCubeDrawer : ICubeDrawer {
     JArray[] _cube;
@@ -49,6 +50,7 @@ public class ImageCubeDrawer : ICubeDrawer {
             using ( var stream = File.OpenWrite($@"{Directory.GetCurrentDirectory()}\image.png")) {
                 data.SaveTo(stream);
             }
+            
         }
         
     }
@@ -111,89 +113,31 @@ public class ImageCubeDrawer : ICubeDrawer {
             tilePaint.Color = GetTileColor((string)face[2][2]);
             canvas.DrawRect(x+25,y+25,10,10, tilePaint);
     }
-    // TODO: Magic numbers
-    private void DrawCube(int col, int row, JArray face) {
-        // Draw tiles
-        for ( int y = 0; y < 3; y++) {
-            for ( int x = 0; x < 3; x++) {
-                DrawTile( col + x * 6, row + y * 4, (string)face[y][x] );
-            }
-        }
-    }
-
-    // TODO: Magic Numbers
-    private void DrawTile(int col, int row, string colour) {
-        Console.SetCursorPosition(col, row);
-        Console.Write("+-----+");
-        for ( int j = 1; j <= 3; j++) {
-            Console.SetCursorPosition(col, row + j);
-            Console.Write("|     |");
-            // Draw Tile Face, with this colour
-            Console.SetCursorPosition(col + 1, row + j);
-            ConsoleColor currentForegroundColor = Console.ForegroundColor;
-            ConsoleColor tileColor;
-            switch (colour) {
-                case "R":
-                    tileColor = ConsoleColor.Red;
-                    break;
-
-                case "W":
-                    tileColor = ConsoleColor.White;
-                    break;
-
-                case "G":
-                    tileColor = ConsoleColor.Green;
-                    break;
-
-                case "B":
-                    tileColor = ConsoleColor.Blue;
-                    break;
-
-                case "Y":
-                    tileColor = ConsoleColor.Yellow;
-                    break;
-
-                case "O":
-                    tileColor = ConsoleColor.Magenta;
-                    break;
-
-                default:
-                    tileColor = currentForegroundColor;
-                    break;
-            } 
-            Console.ForegroundColor = tileColor;
-            Console.Write("#####");
-            Console.ForegroundColor = currentForegroundColor;
-        }
-        Console.SetCursorPosition(col, row + 4);
-        Console.Write("+-----+");
-    }
-
     SKColor GetTileColor(string tileColor) {
         SKColor thisColor = default(SKColor);
 
         switch (tileColor) {
-            case "O":
+            case CubeHelper.ORANGE:
                 thisColor = SKColors.Orange;
                 break;
 
-            case "W":
+            case CubeHelper.WHITE:
                 thisColor = SKColors.White;
                 break;
 
-            case "R":
+            case CubeHelper.RED:
                 thisColor = SKColors.Red;
                 break;
             
-            case "G":
+            case CubeHelper.GREEN:
                 thisColor = SKColors.Green;
                 break;
 
-            case "Y":
+            case CubeHelper.YELLOW:
                 thisColor = SKColors.Yellow;
                 break;
 
-            case "B":
+            case CubeHelper.BLUE:
                 thisColor = SKColors.Blue;
                 break;
         }
